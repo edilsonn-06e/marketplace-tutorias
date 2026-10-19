@@ -1,4 +1,3 @@
-// src/modules/subscriptions/subscriptions.controller.ts
 import type { Request, Response } from 'express';
 import * as service from './subscriptions.service';
 import { currentUser } from '../../utils/currentUser';

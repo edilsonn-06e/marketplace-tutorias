@@ -1,4 +1,3 @@
-// src/modules/quotes/quotes.controller.ts
 import type { Request, Response } from 'express';
 import * as service from './quotes.service';
 import { currentUser } from '../../utils/currentUser';

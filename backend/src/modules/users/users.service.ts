@@ -1,4 +1,3 @@
-// src/modules/users/users.service.ts
 import { z } from 'zod';
 import type { User } from '@prisma/client';
 import { prisma } from '../../lib/prisma';
@@ -70,7 +69,6 @@ export async function completeOnboarding(userId: string, data: OnboardingInput) 
       skipDuplicates: true,
     });
     if (data.role === 'TUTOR' && data.tutor) {
-      // approval queda PENDING: un admin debe aprobarlo antes de publicar ofertas
       await tx.tutorProfile.create({ data: { userId, ...data.tutor } });
     }
   });

@@ -1,4 +1,3 @@
-// src/modules/quotes/quotes.service.ts
 import { z } from 'zod';
 import type { User } from '@prisma/client';
 import { prisma } from '../../lib/prisma';
@@ -41,7 +40,6 @@ export async function computeQuote(student: User, input: QuoteInput) {
     const r = await getRoute(tutorPoint, studentPoint);
     route = { ...r, from: tutorPoint, to: studentPoint };
     if (input.modality === 'STUDENT_HOME') {
-      // [Decisión] se cobra ida y vuelta
       travelCostPerSession = round2(r.distanceKm * 2 * offer.perKmRate);
     }
   }

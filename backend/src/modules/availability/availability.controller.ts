@@ -1,4 +1,3 @@
-// src/modules/availability/availability.controller.ts
 import type { Request, Response } from 'express';
 import * as service from './availability.service';
 import { currentUser } from '../../utils/currentUser';

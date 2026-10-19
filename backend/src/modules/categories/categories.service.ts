@@ -1,4 +1,3 @@
-// src/modules/categories/categories.service.ts
 import { z } from 'zod';
 import { prisma } from '../../lib/prisma';
 import { HttpError } from '../../utils/httpError';
@@ -11,7 +10,6 @@ export const categorySchema = z.object({
 });
 export type CategoryInput = z.infer<typeof categorySchema>;
 
-// Árbol: categorías principales con sus subcategorías
 export function listTree() {
   return prisma.category.findMany({
     where: { parentId: null },
@@ -43,6 +41,6 @@ export async function update(adminId: string, id: string, data: CategoryInput) {
 }
 
 export async function remove(adminId: string, id: string) {
-  await prisma.category.delete({ where: { id } }); // P2003 si hay ofertas usando la categoría → 409
+  await prisma.category.delete({ where: { id } });
   await audit(prisma, adminId, 'CATEGORY_DELETED', 'Category', id);
 }

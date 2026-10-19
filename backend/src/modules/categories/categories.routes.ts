@@ -1,4 +1,3 @@
-// src/modules/categories/categories.routes.ts
 import { Router } from 'express';
 import * as ctrl from './categories.controller';
 import { requireRole } from '../../middlewares/roles';

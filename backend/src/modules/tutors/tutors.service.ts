@@ -1,4 +1,3 @@
-// src/modules/tutors/tutors.service.ts
 import { z } from 'zod';
 import type { User } from '@prisma/client';
 import { prisma } from '../../lib/prisma';
@@ -20,7 +19,6 @@ export const searchSchema = z.object({
 export type SearchQuery = z.infer<typeof searchSchema>;
 
 export async function search(user: User, q: SearchQuery) {
-  // Origen: el punto enviado, o la dirección guardada del estudiante ("cerca de mi ubicación")
   const origin: Point | null =
     q.lat !== undefined && q.lng !== undefined
       ? { lat: q.lat, lng: q.lng }
@@ -28,7 +26,6 @@ export async function search(user: User, q: SearchQuery) {
         ? { lat: user.lat, lng: user.lng }
         : null;
 
-  // Si filtran por una categoría principal, incluir sus subcategorías
   let categoryIds: string[] | undefined;
   if (q.categoryId) {
     const children = await prisma.category.findMany({ where: { parentId: q.categoryId }, select: { id: true } });
@@ -68,7 +65,6 @@ export async function search(user: User, q: SearchQuery) {
     return {
       ...o,
       tutor,
-      // Ubicación aproximada (~1 km) para pintar en el mapa sin revelar la casa exacta
       approxLocation: hasPoint ? { lat: Math.round(lat * 100) / 100, lng: Math.round(lng * 100) / 100 } : null,
       distanceKm: origin && hasPoint ? round2(haversineKm(origin, { lat, lng })) : null,
     };
@@ -80,7 +76,6 @@ export async function search(user: User, q: SearchQuery) {
     ? results.filter((r) => r.distanceKm !== null && r.distanceKm <= radius)
     : results;
 
-  // Más cercanos primero; a igual distancia, mejor calificados
   return filtered.sort(
     (a, b) =>
       (a.distanceKm ?? Infinity) - (b.distanceKm ?? Infinity) ||

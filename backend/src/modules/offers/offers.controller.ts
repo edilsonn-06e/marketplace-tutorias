@@ -1,4 +1,3 @@
-// src/modules/offers/offers.controller.ts
 import type { Request, Response } from 'express';
 import * as service from './offers.service';
 import { currentUser } from '../../utils/currentUser';

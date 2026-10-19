@@ -1,4 +1,3 @@
-// src/modules/quotes/quotes.routes.ts
 import { Router } from 'express';
 import * as ctrl from './quotes.controller';
 import { requireRole } from '../../middlewares/roles';

@@ -1,4 +1,3 @@
-// src/modules/subscriptions/subscriptions.routes.ts
 import { Router } from 'express';
 import * as ctrl from './subscriptions.controller';
 import { requireRole } from '../../middlewares/roles';

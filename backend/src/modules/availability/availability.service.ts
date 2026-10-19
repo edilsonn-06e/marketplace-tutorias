@@ -42,7 +42,6 @@ export async function replaceMine(tutorId: string, { slots }: AvailabilityInput)
     }
   }
 
-  // Ordenar por día y hora; si un bloque empieza antes de que termine el anterior del mismo día, se traslapan
   const sorted = [...parsed].sort((a, b) => a.dayOfWeek - b.dayOfWeek || a.startMinute - b.startMinute);
   for (let i = 1; i < sorted.length; i++) {
     const prev = sorted[i - 1];

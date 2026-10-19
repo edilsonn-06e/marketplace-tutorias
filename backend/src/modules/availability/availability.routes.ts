@@ -1,4 +1,3 @@
-// src/modules/availability/availability.routes.ts
 import { Router } from 'express';
 import * as ctrl from './availability.controller';
 import { requireRole } from '../../middlewares/roles';

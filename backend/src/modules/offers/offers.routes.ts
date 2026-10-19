@@ -1,4 +1,3 @@
-// src/modules/offers/offers.routes.ts
 import { Router } from 'express';
 import * as ctrl from './offers.controller';
 import { requireRole, requireApprovedTutor } from '../../middlewares/roles';

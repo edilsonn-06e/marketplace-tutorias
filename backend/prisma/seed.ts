@@ -62,7 +62,6 @@ async function main() {
         tutorProfile: {
           create: { bio: t.bio, cvUrl: 'https://example.com/cv.pdf', baseRate: t.hourlyRate, approval: 'APPROVED' },
         },
-        // Lunes a viernes de 08:00 a 18:00
         availability: {
           create: [1, 2, 3, 4, 5].map((d) => ({ dayOfWeek: d, startMinute: 8 * 60, endMinute: 18 * 60 })),
         },

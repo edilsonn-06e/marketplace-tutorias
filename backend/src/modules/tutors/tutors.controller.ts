@@ -1,4 +1,3 @@
-// src/modules/tutors/tutors.controller.ts
 import type { Request, Response } from 'express';
 import * as service from './tutors.service';
 import { currentUser } from '../../utils/currentUser';

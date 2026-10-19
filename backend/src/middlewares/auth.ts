@@ -6,7 +6,6 @@ import { verifyToken } from '../utils/jwt';
 import { HttpError } from '../utils/httpError';
 import { currentUser } from '../utils/currentUser';
 
-// Reutilizable: lo usa el middleware HTTP y también Socket.io
 export async function authenticate(token: string): Promise<User> {
   let payload;
   try {

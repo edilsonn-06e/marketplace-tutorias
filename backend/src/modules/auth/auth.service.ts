@@ -52,7 +52,6 @@ export async function loginWithGoogle(credential: string) {
   return buildSession(user.id);
 }
 
-// SOLO desarrollo: entrar como cualquier correo sin Google (para Postman y los usuarios del seed)
 export async function devLogin(email: string) {
   if (!env.ENABLE_DEV_LOGIN) throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada');
   const normalized = email.toLowerCase();

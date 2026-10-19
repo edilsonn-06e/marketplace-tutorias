@@ -1,4 +1,3 @@
-
 import { Router } from 'express';
 import * as ctrl from './auth.controller';
 import { requireAuth } from '../../middlewares/auth';

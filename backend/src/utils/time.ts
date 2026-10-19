@@ -1,4 +1,4 @@
-export const HHMM = /^([01]\d|2[0-3]):[0-5]\d$/; // 00:00 a 23:59
+export const HHMM = /^([01]\d|2[0-3]):[0-5]\d$/;
 
 export function toMinutes(hhmm: string): number {
   const [h, m] = hhmm.split(':').map(Number);

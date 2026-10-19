@@ -1,4 +1,3 @@
-// src/modules/users/users.routes.ts
 import { Router } from 'express';
 import * as ctrl from './users.controller';
 

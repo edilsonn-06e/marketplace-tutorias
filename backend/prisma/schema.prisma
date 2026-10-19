@@ -7,78 +7,67 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ---------- Enums: valores cerrados ----------
 enum Role {
   STUDENT
   TUTOR
   ADMIN
 }
-
 enum UserStatus {
   ACTIVE
   SUSPENDED
 }
-
 enum Gender {
   MALE
   FEMALE
   OTHER
   UNSPECIFIED
 }
-
 enum TutorApproval {
   PENDING
   APPROVED
   REJECTED
 }
-
 enum Modality {
   VIRTUAL
   TUTOR_PLACE
   STUDENT_HOME
 }
-
 enum SubscriptionStatus {
   PENDING
   APPROVED
   REJECTED
   CANCELLED
 }
-
 enum SessionStatus {
   PENDING
   APPROVED
   COMPLETED
   CANCELLED
 }
-
 enum ReportReason {
   NO_SHOW
   INAPPROPRIATE_CONDUCT
   UNDUE_CHARGES
   OTHER
 }
-
 enum ReportStatus {
   OPEN
   RESOLVED
   DISMISSED
 }
-
 enum AppealStatus {
   PENDING
   ACCEPTED
   REJECTED
 }
 
-// ---------- Usuarios ----------
 model User {
   id              String     @id @default(uuid())
   googleId        String     @unique
   email           String     @unique
   name            String
   photoUrl        String?
-  role            Role? // null hasta completar onboarding
+  role            Role?
   onboarded       Boolean    @default(false)
   phone           String?
   gender          Gender?
@@ -92,23 +81,23 @@ model User {
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
 
-  tutorProfile           TutorProfile?
-  categories             UserCategory[]
-  offers                 Offer[]
-  availability           Availability[]
-  studentSubscriptions   Subscription[] @relation("StudentSubscriptions")
-  tutorSubscriptions     Subscription[] @relation("TutorSubscriptions")
-  studentSessions        Session[]      @relation("StudentSessions")
-  tutorSessions          Session[]      @relation("TutorSessions")
-  reviewsGiven           Review[]       @relation("ReviewsGiven")
-  reviewsReceived        Review[]       @relation("ReviewsReceived")
+  tutorProfile          TutorProfile?
+  categories            UserCategory[]
+  offers                Offer[]
+  availability          Availability[]
+  studentSubscriptions  Subscription[] @relation("StudentSubscriptions")
+  tutorSubscriptions    Subscription[] @relation("TutorSubscriptions")
+  studentSessions       Session[]      @relation("StudentSessions")
+  tutorSessions         Session[]      @relation("TutorSessions")
+  reviewsGiven          Review[]       @relation("ReviewsGiven")
+  reviewsReceived       Review[]       @relation("ReviewsReceived")
   conversationsAsStudent Conversation[] @relation("ConvStudent")
-  conversationsAsTutor   Conversation[] @relation("ConvTutor")
-  messages               Message[]
-  reportsMade            Report[]       @relation("ReportsMade")
-  reportsReceived        Report[]       @relation("ReportsReceived")
-  appeals                Appeal[]
-  auditLogs              AuditLog[]
+  conversationsAsTutor  Conversation[] @relation("ConvTutor")
+  messages              Message[]
+  reportsMade           Report[]       @relation("ReportsMade")
+  reportsReceived       Report[]       @relation("ReportsReceived")
+  appeals               Appeal[]
+  auditLogs             AuditLog[]
 }
 
 model TutorProfile {
@@ -122,7 +111,6 @@ model TutorProfile {
   reviewCount Int           @default(0)
 }
 
-// ---------- Catálogo ----------
 model Category {
   id          String         @id @default(uuid())
   name        String         @unique
@@ -144,7 +132,6 @@ model UserCategory {
   @@id([userId, categoryId])
 }
 
-// ---------- Oferta del tutor ----------
 model Offer {
   id            String         @id @default(uuid())
   tutorId       String
@@ -167,14 +154,13 @@ model Availability {
   id          String @id @default(uuid())
   tutorId     String
   tutor       User   @relation(fields: [tutorId], references: [id], onDelete: Cascade)
-  dayOfWeek   Int // 0 = domingo ... 6 = sábado
-  startMinute Int // minutos desde medianoche: 08:00 = 480
+  dayOfWeek   Int
+  startMinute Int
   endMinute   Int
 
   @@index([tutorId])
 }
 
-// ---------- Contratación ----------
 model Subscription {
   id                   String             @id @default(uuid())
   studentId            String
@@ -218,7 +204,7 @@ model Session {
 
 model Review {
   id        String   @id @default(uuid())
-  sessionId String   @unique // una reseña por sesión
+  sessionId String   @unique
   session   Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   studentId String
   student   User     @relation("ReviewsGiven", fields: [studentId], references: [id])
@@ -229,7 +215,6 @@ model Review {
   createdAt DateTime @default(now())
 }
 
-// ---------- Chat ----------
 model Conversation {
   id        String    @id @default(uuid())
   studentId String
@@ -256,7 +241,6 @@ model Message {
   @@index([conversationId, createdAt])
 }
 
-// ---------- Moderación ----------
 model Report {
   id         String       @id @default(uuid())
   reporterId String

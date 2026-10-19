@@ -3,7 +3,7 @@ import type { Role } from '@prisma/client';
 import { env } from '../config/env';
 
 export interface TokenPayload {
-  sub: string;          // id del usuario
+  sub: string;
   role: Role | null;
 }
 
@@ -15,7 +15,7 @@ export function signToken(user: { id: string; role: Role | null }): string {
 }
 
 export function verifyToken(token: string): TokenPayload {
-  const decoded = jwt.verify(token, env.JWT_SECRET); // lanza error si la firma no coincide o expiró
+  const decoded = jwt.verify(token, env.JWT_SECRET);
   if (typeof decoded === 'string' || !decoded.sub) {
     throw new jwt.JsonWebTokenError('Payload inválido');
   }

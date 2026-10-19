@@ -6,9 +6,8 @@ export interface Point {
 export const round2 = (n: number) => Math.round(n * 100) / 100;
 const toRad = (deg: number) => (deg * Math.PI) / 180;
 
-// Distancia en línea recta sobre la Tierra (fórmula de Haversine)
 export function haversineKm(a: Point, b: Point): number {
-  const R = 6371; // radio de la Tierra en km
+  const R = 6371;
   const dLat = toRad(b.lat - a.lat);
   const dLng = toRad(b.lng - a.lng);
   const h =
@@ -25,13 +24,11 @@ interface OsrmResponse {
 export interface RouteResult {
   distanceKm: number;
   durationMin: number | null;
-  geometry: [number, number][]; // [lat, lng] listo para Leaflet
+  geometry: [number, number][];
   source: 'osrm' | 'estimate';
 }
 
-// Ruta real por calles usando el servidor público de OSRM (datos de OpenStreetMap)
 export async function getRoute(from: Point, to: Point): Promise<RouteResult> {
-  // ¡OJO! OSRM usa el orden lng,lat (al revés que Leaflet)
   const url =
     `https://router.project-osrm.org/route/v1/driving/` +
     `${from.lng},${from.lat};${to.lng},${to.lat}?overview=full&geometries=geojson`;
@@ -48,7 +45,6 @@ export async function getRoute(from: Point, to: Point): Promise<RouteResult> {
       source: 'osrm',
     };
   } catch (err) {
-    // Plan B: si OSRM cae, estimamos con línea recta × 1.3 (factor típico de desvío urbano)
     console.warn('OSRM falló, usando estimación:', (err as Error).message);
     return {
       distanceKm: round2(haversineKm(from, to) * 1.3),

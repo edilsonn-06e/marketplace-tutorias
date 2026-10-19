@@ -23,7 +23,6 @@ interface PlannedSession {
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-// Genera una sesión por cada día elegido durante N semanas, en hora de Guatemala
 export function generateSessions(
   startDate: string,
   weeks: number,
@@ -31,13 +30,13 @@ export function generateSessions(
   startMinute: number,
   durationMinutes: number,
 ): PlannedSession[] {
-  const base = new Date(`${startDate}T00:00:00Z`); // solo para recorrer fechas del calendario
+  const base = new Date(`${startDate}T00:00:00Z`);
   const sessions: PlannedSession[] = [];
   for (let i = 0; i < weeks * 7; i++) {
     const day = new Date(base.getTime() + i * DAY_MS);
     if (!daysOfWeek.includes(day.getUTCDay())) continue;
-    const ymd = day.toISOString().slice(0, 10); // "2026-10-19"
-    const startAt = new Date(`${ymd}T${toHHMM(startMinute)}:00${env.TIMEZONE_OFFSET}`); // "2026-10-19T18:00:00-06:00"
+    const ymd = day.toISOString().slice(0, 10);
+    const startAt = new Date(`${ymd}T${toHHMM(startMinute)}:00${env.TIMEZONE_OFFSET}`);
     sessions.push({ startAt, endAt: new Date(startAt.getTime() + durationMinutes * 60_000) });
   }
   return sessions;
@@ -53,7 +52,6 @@ async function assertWithinAvailability(tutorId: string, days: number[], startMi
   }
 }
 
-// Si PostgreSQL aborta por conflicto de serialización (P2034), reintentamos
 async function withSerializableRetry<T>(fn: () => Promise<T>, attempts = 3): Promise<T> {
   for (let i = 1; ; i++) {
     try {
@@ -70,20 +68,16 @@ export async function create(student: User, input: CreateSubscriptionInput) {
   const endMinute = startMinute + input.durationMinutes;
   if (endMinute > 24 * 60) throw new HttpError(400, 'INVALID_TIME', 'La sesión no puede pasar de medianoche');
 
-  // 1) Precio calculado por el servidor (valida oferta y modalidad)
   const quote = await computeQuote(student, input);
   const tutorId = quote.tutor.id;
   if (tutorId === student.id) throw new HttpError(400, 'SELF_BOOKING', 'No puedes contratarte a ti mismo');
 
-  // 2) Dentro de la cuadrícula semanal del tutor
   await assertWithinAvailability(tutorId, quote.daysOfWeek, startMinute, endMinute);
 
-  // 3) Todas las sesiones concretas
   const planned = generateSessions(input.startDate, input.weeks, quote.daysOfWeek, startMinute, input.durationMinutes);
   if (planned.length === 0) throw new HttpError(400, 'NO_SESSIONS', 'La combinación de fechas no genera sesiones');
   if (planned[0].startAt <= new Date()) throw new HttpError(400, 'START_IN_PAST', 'La primera sesión ya pasó');
 
-  // 4) Verificar choques y guardar, atómicamente
   return withSerializableRetry(() =>
     prisma.$transaction(
       async (tx) => {
@@ -93,7 +87,6 @@ export async function create(student: User, input: CreateSubscriptionInput) {
             OR: [{ tutorId }, { studentId: student.id }],
             AND: [
               {
-                // Traslape: inicioExistente < finNueva  Y  finExistente > inicioNueva
                 OR: planned.map((s) => ({ startAt: { lt: s.endAt }, endAt: { gt: s.startAt } })),
               },
             ],
@@ -110,7 +103,7 @@ export async function create(student: User, input: CreateSubscriptionInput) {
             conflicts.map((c) => ({
               startAt: c.startAt,
               endAt: c.endAt,
-              conflictWith: c.studentId === student.id ? 'STUDENT' : 'TUTOR', // primero: ¿ya tienes clase tú?
+              conflictWith: c.studentId === student.id ? 'STUDENT' : 'TUTOR',
             })),
           );
         }
@@ -178,7 +171,6 @@ export async function changeStatus(user: User, id: string, status: 'APPROVED' | 
       where: {
         subscriptionId: id,
         status: { in: ['PENDING', 'APPROVED'] },
-        // Al cancelar, solo las sesiones futuras; las pasadas quedan como historial
         ...(status === 'CANCELLED' ? { startAt: { gt: new Date() } } : {}),
       },
       data: { status: status === 'APPROVED' ? 'APPROVED' : 'CANCELLED' },

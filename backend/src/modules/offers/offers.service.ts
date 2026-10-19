@@ -19,7 +19,6 @@ export type OfferUpdateInput = z.infer<typeof offerUpdateSchema>;
 
 async function getOwned(tutorId: string, id: string) {
   const offer = await prisma.offer.findUnique({ where: { id } });
-  // Si no es suya respondemos 404 (no 403) para no revelar que el recurso existe
   if (!offer || offer.tutorId !== tutorId) throw new HttpError(404, 'NOT_FOUND', 'Oferta no encontrada');
   return offer;
 }
@@ -43,7 +42,6 @@ export async function update(tutorId: string, id: string, data: OfferUpdateInput
   return prisma.offer.update({ where: { id }, data, include: { category: true } });
 }
 
-// "Borrado lógico": las suscripciones viejas siguen apuntando a la oferta
 export async function deactivate(tutorId: string, id: string) {
   await getOwned(tutorId, id);
   await prisma.offer.update({ where: { id }, data: { active: false } });
