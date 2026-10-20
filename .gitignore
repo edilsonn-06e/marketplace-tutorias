@@ -4,4 +4,6 @@ dist/
 .env.local
 *.log
 .DS_Store
-.DS_store
+.vscode/
+.postman/
+/postman/
