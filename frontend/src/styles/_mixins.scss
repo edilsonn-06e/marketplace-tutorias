@@ -1,0 +1,23 @@
+@use 'sass:map';
+@use 'variables' as *;
+
+@mixin up($bp) {
+  @media (min-width: map.get($breakpoints, $bp)) {
+    @content;
+  }
+}
+
+@mixin card {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  padding: $space * 2;
+}
+
+@mixin flex-center($gap: $space) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $gap;
+}

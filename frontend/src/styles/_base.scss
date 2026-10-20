@@ -1,0 +1,66 @@
+@use 'sass:color';
+@use 'variables' as *;
+@use 'mixins' as *;
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: $font-family;
+  background: $color-bg;
+  color: $color-text;
+  line-height: 1.5;
+}
+
+a { color: $color-primary; }
+
+h1, h2, h3 { line-height: 1.2; margin: 0 0 $space * 2; }
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $space * 2;
+
+  @include up(md) { padding: $space * 3; }
+}
+
+.btn {
+  @include flex-center;
+  border: 0;
+  border-radius: $radius;
+  padding: $space $space * 2;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  background: $color-primary;
+  color: #fff;
+
+  &:hover { background: color.adjust($color-primary, $lightness: -8%); }
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  &--outline {
+    background: transparent;
+    color: $color-primary;
+    border: 1px solid $color-primary;
+
+    &:hover { background: rgba($color-primary, 0.08); }
+  }
+
+  &--danger { background: $color-danger; }
+}
+
+.card { @include card; }
+
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+
+  @each $status, $color in $status-colors {
+    &--#{$status} { background: $color; }
+  }
+}

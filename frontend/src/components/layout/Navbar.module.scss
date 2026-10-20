@@ -1,0 +1,36 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.navbar {
+  background: $color-surface;
+  border-bottom: 1px solid $color-border;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $space * 1.5 $space * 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space * 2;
+}
+
+.brand { font-weight: 800; font-size: 1.2rem; text-decoration: none; color: $color-primary; }
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: $space;
+
+  img { width: 32px; height: 32px; border-radius: 50%; }
+}
+
+.name {
+  display: none;
+
+  @include up(md) { display: inline; }
+}
