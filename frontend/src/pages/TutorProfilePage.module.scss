@@ -1,0 +1,152 @@
+@use 'sass:color';
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+$whatsapp: #25d366;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space * 3;
+}
+
+.header {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $space * 2;
+
+  @include up(md) {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.headerInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  h1 { margin: 0; }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space;
+}
+
+.whatsapp {
+  background: $whatsapp;
+
+  &:hover { background: color.adjust($whatsapp, $lightness: -8%); }
+}
+
+.content {
+  display: grid;
+  gap: $space * 3;
+
+  @include up(lg) {
+    grid-template-columns: 1fr 300px;
+    align-items: start;
+  }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: $space * 3;
+}
+
+.section {
+  @include card;
+
+  h2 { font-size: 1.15rem; margin-bottom: $space * 1.5; }
+}
+
+.bio {
+  white-space: pre-line;
+  margin: 0 0 $space;
+}
+
+.offers {
+  display: grid;
+  gap: $space * 1.5;
+}
+
+.offer {
+  border: 1px solid $color-border;
+  border-radius: $radius;
+  padding: $space * 2;
+  display: flex;
+  flex-direction: column;
+  gap: $space;
+
+  h3 { margin: 0; font-size: 1.05rem; }
+  p { margin: 0; color: $color-muted; }
+}
+
+.category {
+  color: $color-primary;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.rates {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: $space * 2;
+  font-weight: 600;
+}
+
+.schedule {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    gap: $space;
+  }
+}
+
+.reviews {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space * 2;
+}
+
+.review {
+  display: flex;
+  gap: $space * 1.5;
+
+  p { margin: 4px 0 0; }
+}
+
+.reviewHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space;
+}
+
+.muted {
+  color: $color-muted;
+  font-size: 0.875rem;
+}

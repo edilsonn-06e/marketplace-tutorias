@@ -14,23 +14,120 @@
   margin: 0 auto;
   padding: $space * 1.5 $space * 2;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: $space * 2;
 }
 
-.brand { font-weight: 800; font-size: 1.2rem; text-decoration: none; color: $color-primary; }
+.brand {
+  font-weight: 800;
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: $color-primary;
+}
+
+.toggle {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: $space;
+  background: none;
+  border: 0;
+  cursor: pointer;
+
+  span {
+    width: 22px;
+    height: 2px;
+    border-radius: 2px;
+    background: $color-text;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+
+  &[aria-expanded='true'] span {
+    &:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    &:nth-child(2) { opacity: 0; }
+    &:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+  }
+
+  @include up(lg) { display: none; }
+}
+
+.menu {
+  display: none;
+  width: 100%;
+  flex-direction: column;
+  gap: $space * 2;
+
+  &.open { display: flex; }
+
+  @include up(lg) {
+    display: flex;
+    flex: 1;
+    width: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  @include up(lg) { flex-direction: row; }
+}
+
+.link {
+  display: block;
+  padding: $space $space * 1.5;
+  border-radius: $radius;
+  color: $color-text;
+  text-decoration: none;
+  font-weight: 500;
+  white-space: nowrap;
+
+  &:hover { background: $color-bg; }
+
+  &.active {
+    color: $color-primary;
+    background: rgba($color-primary, 0.08);
+  }
+}
 
 .user {
   display: flex;
   align-items: center;
   gap: $space;
+  padding-top: $space * 1.5;
+  border-top: 1px solid $color-border;
 
-  img { width: 32px; height: 32px; border-radius: 50%; }
+  @include up(lg) {
+    padding-top: 0;
+    border-top: 0;
+  }
+}
+
+.userInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+
+  @include up(lg) { display: none; }
+  @include up(xl) { display: flex; }
 }
 
 .name {
-  display: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
 
-  @include up(md) { display: inline; }
+.role {
+  color: $color-muted;
+  font-size: 0.75rem;
 }

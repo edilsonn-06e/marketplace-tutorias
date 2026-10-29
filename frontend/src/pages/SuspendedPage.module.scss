@@ -1,0 +1,78 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.page {
+  min-height: 100vh;
+  padding: $space * 2;
+
+  @include up(md) { padding: $space * 4; }
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: $space * 2;
+
+  h1, h2 { margin-bottom: $space * 1.5; }
+}
+
+.notice { border-top: 4px solid $color-danger; }
+
+.details {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: $space * 0.5 $space * 2;
+  margin: 0 0 $space * 2;
+
+  dt { font-weight: 600; }
+  dd { margin: 0; }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $space * 1.5;
+  align-items: flex-start;
+
+  .field { width: 100%; }
+}
+
+.muted { color: $color-muted; }
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space * 1.5;
+}
+
+.item {
+  padding-bottom: $space * 1.5;
+  border-bottom: 1px solid $color-border;
+
+  &:last-child { border-bottom: 0; padding-bottom: 0; }
+  p { margin: $space 0 0; }
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $space;
+}
+
+.response {
+  background: $color-bg;
+  border-radius: $radius;
+  padding: $space $space * 1.5;
+}

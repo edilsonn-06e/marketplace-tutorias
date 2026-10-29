@@ -1,0 +1,21 @@
+@use '../../styles/variables' as *;
+
+.stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.on { color: $color-accent; }
+.off { color: $color-border; }
+
+.value {
+  margin-left: 4px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.count {
+  color: $color-muted;
+  font-size: 0.85rem;
+}

@@ -44,3 +44,65 @@ export interface User extends UserSummary {
 export interface AuthResponse { token: string; user: User }
 
 export interface ApiErrorBody { error: { code: string; message: string; details?: unknown } }
+
+export type AppealStatus = 'PENDING' | 'ACCEPTED' | 'REJECTED';
+
+export interface Appeal {
+  id: string;
+  userId: string;
+  message: string;
+  status: AppealStatus;
+  adminResponse: string | null;
+  createdAt: string;
+  resolvedAt: string | null;
+}
+
+export type Modality = 'VIRTUAL' | 'TUTOR_PLACE' | 'STUDENT_HOME';
+
+export interface Offer {
+  id: string;
+  tutorId: string;
+  categoryId: string;
+  title: string;
+  description: string | null;
+  modalities: Modality[];
+  hourlyRate: number;
+  perKmRate: number;
+  active: boolean;
+  createdAt: string;
+  category: Pick<Category, 'id' | 'name'>;
+}
+
+export interface SearchResult extends Offer {
+  tutor: UserSummary & {
+    tutorProfile: Pick<TutorProfile, 'avgRating' | 'reviewCount' | 'bio'> | null;
+  };
+  approxLocation: { lat: number; lng: number } | null;
+  distanceKm: number | null;
+}
+
+export interface AvailabilitySlot {
+  id: string;
+  dayOfWeek: number;
+  startTime: string;
+  endTime: string;
+}
+
+export interface Review {
+  id: string;
+  sessionId: string;
+  studentId: string;
+  tutorId: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+  student: UserSummary;
+}
+
+export interface TutorPublicProfile extends UserSummary {
+  createdAt: string;
+  tutorProfile: Pick<TutorProfile, 'bio' | 'cvUrl' | 'baseRate' | 'avgRating' | 'reviewCount'> | null;
+  offers: Offer[];
+  availability: AvailabilitySlot[];
+  reviews: Review[];
+}

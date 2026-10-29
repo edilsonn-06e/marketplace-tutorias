@@ -1,0 +1,129 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.layout {
+  display: grid;
+  gap: $space * 3;
+
+  @include up(lg) {
+    grid-template-columns: 280px 1fr;
+    align-items: start;
+  }
+}
+
+.filters {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: $space * 1.5;
+
+  h2 { font-size: 1.1rem; margin: 0; }
+
+  @include up(lg) {
+    position: sticky;
+    top: $space * 10;
+  }
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space;
+}
+
+.filterActions {
+  display: flex;
+  gap: $space;
+
+  > * { flex: 1; }
+}
+
+.resultsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: $space;
+  margin-bottom: $space * 2;
+
+  h1 { margin: 0; font-size: 1.5rem; }
+}
+
+.results {
+  display: grid;
+  gap: $space * 2;
+  grid-template-columns: 1fr;
+
+  @include up(sm) { grid-template-columns: repeat(2, 1fr); }
+  @include up(xl) { grid-template-columns: repeat(3, 1fr); }
+}
+
+.result {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: $space;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba($color-text, 0.12);
+  }
+
+  h3 { margin: 0; font-size: 1.05rem; }
+}
+
+.tutor {
+  display: flex;
+  align-items: center;
+  gap: $space * 1.5;
+}
+
+.tutorName {
+  display: flex;
+  flex-direction: column;
+}
+
+.category {
+  color: $color-primary;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.footer {
+  margin-top: auto;
+  padding-top: $space;
+  border-top: 1px solid $color-border;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.price {
+  font-size: 1.2rem;
+  font-weight: 700;
+
+  small {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: $color-muted;
+  }
+}
+
+.muted {
+  color: $color-muted;
+  font-size: 0.875rem;
+}
+
+.empty {
+  @include card;
+  text-align: center;
+  color: $color-muted;
+}

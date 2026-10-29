@@ -18,6 +18,8 @@ $status-colors: (
   REJECTED: $color-danger,
   OPEN: $color-danger,
   RESOLVED: $color-success,
+  ACCEPTED: $color-success,
+  DISMISSED: $color-muted,
 );
 
 $font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;

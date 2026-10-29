@@ -1,0 +1,54 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space * 3;
+}
+
+.welcome {
+  @include card;
+  display: flex;
+  align-items: center;
+  gap: $space * 2;
+
+  h1 { margin: 0 0 $space; }
+}
+
+.notice {
+  margin: 0;
+  padding: $space * 1.5 $space * 2;
+  border-radius: $radius;
+  background: rgba($color-warning, 0.1);
+  border-left: 4px solid $color-warning;
+
+  &.rejected {
+    background: rgba($color-danger, 0.08);
+    border-left-color: $color-danger;
+  }
+}
+
+.shortcuts {
+  display: grid;
+  gap: $space * 2;
+  grid-template-columns: 1fr;
+
+  @include up(sm) { grid-template-columns: repeat(2, 1fr); }
+  @include up(lg) { grid-template-columns: repeat(3, 1fr); }
+}
+
+.shortcut {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: inherit;
+  text-decoration: none;
+  border-left: 4px solid $color-primary;
+  transition: transform 0.15s;
+
+  &:hover { transform: translateY(-2px); }
+
+  span { color: $color-muted; font-size: 0.9rem; }
+}
