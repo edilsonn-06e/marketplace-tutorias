@@ -1,0 +1,41 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba($color-text, 0.5);
+  @include flex-center;
+  padding: $space * 2;
+}
+
+.modal {
+  @include card;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: $space * 2;
+  padding: $space * 3;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: $space;
+
+  h2 { margin: 0; font-size: 1.2rem; }
+}
+
+.close {
+  border: 0;
+  background: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: $color-muted;
+  padding: 4px;
+}

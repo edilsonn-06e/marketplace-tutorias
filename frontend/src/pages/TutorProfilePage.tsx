@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { getTutorProfile } from '../api/tutors';
+import { startConversation } from '../api/chat';
 import { getErrorMessage } from '../api/client';
 import { Avatar } from '../components/ui/Avatar';
 import { Loader } from '../components/ui/Loader';
@@ -28,6 +30,8 @@ function buildShareText(profile: TutorPublicProfile, url: string) {
 
 export default function TutorProfilePage() {
   const { id } = useParams<{ id: string }>();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [profile, setProfile] = useState<TutorPublicProfile | null>(null);
   const [error, setError] = useState('');
 
@@ -48,6 +52,15 @@ export default function TutorProfilePage() {
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
   };
 
+  const openChat = async () => {
+    try {
+      const conversation = await startConversation(profile.id);
+      navigate(`/chat/${conversation.id}`);
+    } catch (err) {
+      setError(getErrorMessage(err));
+    }
+  };
+
   const schedule = DAY_NAMES.map((day, index) => ({
     day,
     slots: profile.availability.filter((a) => a.dayOfWeek === index),
@@ -64,6 +77,9 @@ export default function TutorProfilePage() {
           <span className={styles.muted}>Miembro desde {formatDate(profile.createdAt)}</span>
         </div>
         <div className={styles.actions}>
+          {user?.role === 'STUDENT' && (
+            <button className="btn btn--outline" onClick={openChat}>Enviar mensaje</button>
+          )}
           <button className={`btn ${styles.whatsapp}`} onClick={shareOnWhatsApp}>
             Compartir por WhatsApp
           </button>
@@ -96,10 +112,15 @@ export default function TutorProfilePage() {
                         <span key={m} className="tag">{MODALITY_LABEL[m]}</span>
                       ))}
                     </div>
-                    <div className={styles.rates}>
-                      <span>{formatMoney(offer.hourlyRate)}/hora</span>
-                      {offer.modalities.includes('STUDENT_HOME') && offer.perKmRate > 0 && (
-                        <span className={styles.muted}>+ {formatMoney(offer.perKmRate)}/km a domicilio</span>
+                    <div className={styles.offerFooter}>
+                      <div className={styles.rates}>
+                        <span>{formatMoney(offer.hourlyRate)}/hora</span>
+                        {offer.modalities.includes('STUDENT_HOME') && offer.perKmRate > 0 && (
+                          <span className={styles.muted}>+ {formatMoney(offer.perKmRate)}/km a domicilio</span>
+                        )}
+                      </div>
+                      {user?.role === 'STUDENT' && (
+                        <Link to={`/hire/${profile.id}/${offer.id}`} className="btn">Contratar</Link>
                       )}
                     </div>
                   </article>

@@ -1,0 +1,99 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+$session-colors: (
+  PENDING: $color-warning,
+  APPROVED: $color-primary,
+  COMPLETED: $color-success,
+  CANCELLED: $color-muted,
+);
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space * 2;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: $space;
+
+  h1 { margin: 0; }
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: $space;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space * 2;
+  font-size: 0.85rem;
+  color: $color-muted;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.calendar {
+  @include card;
+  height: 600px;
+
+  @include up(md) { height: 720px; }
+
+  :global {
+    .rbc-toolbar {
+      flex-wrap: wrap;
+      gap: $space;
+    }
+
+    .rbc-toolbar button {
+      font: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .rbc-toolbar button.rbc-active {
+      background: $color-primary;
+      border-color: $color-primary;
+      color: #fff;
+    }
+
+    .rbc-toolbar-label {
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+
+    .rbc-today { background: rgba($color-primary, 0.06); }
+
+    .rbc-event {
+      border: 0;
+      border-radius: 6px;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+@each $status, $color in $session-colors {
+  .#{$status},
+  .calendar .#{$status} {
+    background-color: $color;
+  }
+}

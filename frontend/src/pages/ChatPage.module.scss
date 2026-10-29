@@ -1,0 +1,121 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.layout {
+  @include card;
+  padding: 0;
+  overflow: hidden;
+  display: grid;
+  height: calc(100vh - 140px);
+  min-height: 480px;
+
+  @include up(md) { grid-template-columns: 320px 1fr; }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-right: 1px solid $color-border;
+
+  h1 {
+    margin: 0;
+    padding: $space * 2;
+    font-size: 1.3rem;
+    border-bottom: 1px solid $color-border;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+  }
+}
+
+.chat {
+  display: none;
+  min-height: 0;
+
+  @include up(md) { display: block; }
+}
+
+.hasActive {
+  .list {
+    display: none;
+
+    @include up(md) { display: flex; }
+  }
+
+  .chat { display: block; }
+}
+
+.item {
+  display: flex;
+  gap: $space * 1.5;
+  padding: $space * 1.5 $space * 2;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid $color-border;
+
+  &:hover { background: $color-bg; }
+
+  &.active { background: rgba($color-primary, 0.08); }
+}
+
+.itemText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.itemTop,
+.itemBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $space;
+}
+
+.time {
+  font-size: 0.75rem;
+  color: $color-muted;
+  white-space: nowrap;
+}
+
+.preview {
+  color: $color-muted;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.unread {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: $color-primary;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  @include flex-center;
+}
+
+.muted {
+  color: $color-muted;
+  padding: $space * 2;
+  margin: 0;
+}
+
+.placeholder {
+  height: 100%;
+  margin: 0;
+  @include flex-center;
+  color: $color-muted;
+  padding: $space * 2;
+  text-align: center;
+}

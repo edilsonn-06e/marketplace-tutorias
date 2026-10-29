@@ -1,0 +1,77 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space * 2;
+
+  h1 { margin: 0; }
+}
+
+.layout {
+  display: grid;
+  gap: $space * 3;
+
+  @include up(lg) {
+    grid-template-columns: 420px 1fr;
+    align-items: start;
+  }
+}
+
+.card {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: $space * 2;
+
+  h2 { margin: 0; font-size: 1.15rem; }
+
+  > button { align-self: flex-start; }
+}
+
+.muted {
+  color: $color-muted;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.success {
+  color: $color-success;
+  font-weight: 600;
+  margin: 0;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space * 1.5;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: $space * 1.5;
+  border-bottom: 1px solid $color-border;
+
+  &:last-child { border-bottom: 0; padding-bottom: 0; }
+
+  p { margin: 4px 0 0; }
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $space;
+}
+
+.note {
+  background: $color-bg;
+  border-radius: $radius;
+  padding: $space $space * 1.5;
+}

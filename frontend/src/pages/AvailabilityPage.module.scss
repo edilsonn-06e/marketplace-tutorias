@@ -1,0 +1,138 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+$grid-height: 320px;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space * 2;
+
+  h1 { margin: 0; }
+}
+
+.muted {
+  color: $color-muted;
+  margin: 0;
+}
+
+.success {
+  color: $color-success;
+  font-weight: 600;
+  margin: 0;
+}
+
+.layout {
+  display: grid;
+  gap: $space * 3;
+
+  @include up(lg) {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.card {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: $space * 2;
+
+  h2 { margin: 0; font-size: 1.15rem; }
+
+  > button { align-self: flex-start; }
+}
+
+.cardHeader {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: $space;
+}
+
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space;
+
+  select,
+  input {
+    font: inherit;
+    padding: 6px $space;
+    border: 1px solid $color-border;
+    border-radius: $radius;
+    background: $color-surface;
+  }
+
+  select { flex: 1; min-width: 120px; }
+}
+
+.remove {
+  border: 0;
+  background: none;
+  color: $color-danger;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: $space;
+}
+
+.week {
+  display: grid;
+  grid-template-columns: 44px repeat(7, 1fr);
+  gap: 4px;
+}
+
+.hours {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: $grid-height;
+  margin-top: 24px;
+  font-size: 0.7rem;
+  color: $color-muted;
+}
+
+.dayColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dayName {
+  height: 20px;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.track {
+  position: relative;
+  height: $grid-height;
+  border-radius: 6px;
+  background: repeating-linear-gradient(
+    to bottom,
+    $color-bg 0,
+    $color-bg calc(#{$grid-height} / 16 - 1px),
+    $color-border calc(#{$grid-height} / 16 - 1px),
+    $color-border calc(#{$grid-height} / 16)
+  );
+}
+
+.block {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  border-radius: 4px;
+  background: rgba($color-primary, 0.75);
+}

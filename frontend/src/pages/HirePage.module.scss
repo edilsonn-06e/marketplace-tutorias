@@ -1,0 +1,128 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space * 2;
+
+  h1 { margin: 0; font-size: 1.6rem; }
+}
+
+.back {
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.muted {
+  color: $color-muted;
+  margin: 0;
+}
+
+.layout {
+  display: grid;
+  gap: $space * 3;
+  margin-top: $space;
+
+  @include up(lg) {
+    grid-template-columns: 1fr 320px;
+    align-items: start;
+  }
+}
+
+.card {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: $space * 2;
+
+  h2 { margin: 0; font-size: 1.15rem; }
+
+  > button { align-self: flex-start; }
+}
+
+.grid {
+  display: grid;
+  gap: $space * 2;
+
+  @include up(sm) { grid-template-columns: 1fr 1fr; }
+}
+
+.days {
+  border: 0;
+  margin: 0;
+  padding: 0;
+
+  legend {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: $space;
+  }
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space;
+}
+
+.chip {
+  font: inherit;
+  min-width: 56px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid $color-border;
+  background: $color-surface;
+  cursor: pointer;
+
+  &.active {
+    background: $color-primary;
+    border-color: $color-primary;
+    color: #fff;
+  }
+}
+
+.schedule {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    gap: $space;
+  }
+}
+
+.quote { border-top: 4px solid $color-primary; }
+
+.quoteLayout {
+  display: grid;
+  gap: $space * 3;
+
+  @include up(lg) {
+    grid-template-columns: 1fr 1.3fr;
+    align-items: start;
+  }
+}
+
+.breakdown {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: $space $space * 2;
+  margin: 0;
+
+  dt { font-weight: 600; }
+  dd { margin: 0; }
+}
+
+.total {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: $color-primary;
+  padding-top: $space;
+  border-top: 1px solid $color-border;
+}

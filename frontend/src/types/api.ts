@@ -106,3 +106,113 @@ export interface TutorPublicProfile extends UserSummary {
   availability: AvailabilitySlot[];
   reviews: Review[];
 }
+
+export type SubscriptionStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED';
+
+export interface Quote {
+  offer: { id: string; title: string; hourlyRate: number; perKmRate: number };
+  tutor: { id: string; name: string };
+  modality: Modality;
+  weeks: number;
+  daysOfWeek: number[];
+  sessionsCount: number;
+  hoursPerSession: number;
+  classCostPerSession: number;
+  distanceKm: number | null;
+  roundTripKm: number | null;
+  travelCostPerSession: number;
+  costPerSession: number;
+  totalCost: number;
+  route: {
+    distanceKm: number;
+    durationMin: number | null;
+    geometry: [number, number][];
+    source: 'osrm' | 'estimate';
+    from: { lat: number; lng: number };
+    to: { lat: number; lng: number };
+  } | null;
+}
+
+export interface Subscription {
+  id: string;
+  studentId: string;
+  tutorId: string;
+  offerId: string;
+  modality: Modality;
+  startDate: string;
+  weeks: number;
+  daysOfWeek: number[];
+  startMinute: number;
+  durationMinutes: number;
+  distanceKm: number | null;
+  classCostPerSession: number;
+  travelCostPerSession: number;
+  totalCost: number;
+  notes: string | null;
+  status: SubscriptionStatus;
+  createdAt: string;
+}
+
+export interface SubscriptionListItem extends Subscription {
+  offer: { id: string; title: string; category: { name: string } };
+  student: UserSummary;
+  tutor: UserSummary;
+  _count: { sessions: number };
+  startTime: string;
+}
+
+export type SessionStatus = 'PENDING' | 'APPROVED' | 'COMPLETED' | 'CANCELLED';
+
+export interface CalendarSession {
+  id: string;
+  subscriptionId: string;
+  tutorId: string;
+  studentId: string;
+  startAt: string;
+  endAt: string;
+  status: SessionStatus;
+  subscription: {
+    id: string;
+    modality: Modality;
+    status: SubscriptionStatus;
+    offer: { title: string; category: { name: string } };
+  };
+  tutor: UserSummary;
+  student: UserSummary;
+  review: { id: string; rating: number } | null;
+}
+
+export interface ChatMessage {
+  id: string;
+  conversationId: string;
+  senderId: string;
+  content: string;
+  createdAt: string;
+  readAt: string | null;
+}
+
+export interface Conversation {
+  id: string;
+  studentId: string;
+  tutorId: string;
+  createdAt: string;
+  updatedAt: string;
+  otherUser: UserSummary & { role: Role | null };
+  lastMessage: ChatMessage | null;
+  unreadCount: number;
+}
+
+export type ReportReason = 'NO_SHOW' | 'INAPPROPRIATE_CONDUCT' | 'UNDUE_CHARGES' | 'OTHER';
+export type ReportStatus = 'OPEN' | 'RESOLVED' | 'DISMISSED';
+
+export interface Report {
+  id: string;
+  reporterId: string;
+  reportedId: string;
+  reason: ReportReason;
+  evidence: string;
+  status: ReportStatus;
+  adminNote: string | null;
+  createdAt: string;
+  resolvedAt: string | null;
+}

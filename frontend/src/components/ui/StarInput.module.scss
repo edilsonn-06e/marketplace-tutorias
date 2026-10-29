@@ -1,0 +1,32 @@
+@use '../../styles/variables' as *;
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: $space;
+}
+
+.stars {
+  display: flex;
+
+  button {
+    border: 0;
+    background: none;
+    font-size: 2rem;
+    line-height: 1;
+    padding: 0 2px;
+    cursor: pointer;
+    transition: transform 0.1s;
+
+    &:hover { transform: scale(1.15); }
+  }
+}
+
+.on { color: $color-accent; }
+.off { color: $color-border; }
+
+.label {
+  color: $color-muted;
+  font-weight: 600;
+  min-width: 80px;
+}

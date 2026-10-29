@@ -1,0 +1,127 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space * 2;
+
+  h1 { margin: 0; }
+}
+
+.notice {
+  margin: 0;
+  padding: $space * 1.5 $space * 2;
+  border-radius: $radius;
+  background: rgba($color-warning, 0.1);
+  border-left: 4px solid $color-warning;
+}
+
+.layout {
+  display: grid;
+  gap: $space * 3;
+
+  @include up(lg) {
+    grid-template-columns: 400px 1fr;
+    align-items: start;
+  }
+}
+
+.card {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: $space * 2;
+
+  h2 { margin: 0; font-size: 1.15rem; }
+
+  @include up(lg) {
+    position: sticky;
+    top: $space * 10;
+  }
+}
+
+.modalities {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space;
+
+  legend {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: $space;
+  }
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: $space;
+  cursor: pointer;
+
+  input { width: 18px; height: 18px; accent-color: $color-primary; }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space * 2;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $space * 2;
+}
+
+.empty {
+  @include card;
+  margin: 0;
+  text-align: center;
+  color: $color-muted;
+}
+
+.offer {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: $space;
+
+  h3 { margin: 0; font-size: 1.05rem; }
+
+  &.inactive { opacity: 0.6; }
+  &.editing { outline: 2px solid $color-primary; }
+}
+
+.offerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $space;
+}
+
+.category {
+  color: $color-primary;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.muted {
+  color: $color-muted;
+  margin: 0;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}

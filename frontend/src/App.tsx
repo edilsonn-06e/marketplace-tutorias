@@ -8,7 +8,16 @@ import HomePage from './pages/HomePage';
 import PoliciesPage from './pages/PoliciesPage';
 import SearchPage from './pages/SearchPage';
 import TutorProfilePage from './pages/TutorProfilePage';
-import ComingSoonPage from './pages/CoomingSoonPage';
+import HirePage from './pages/HirePage';
+import SubscriptionsPage from './pages/SubscriptionsPage';
+import OffersPage from './pages/OffersPage';
+import AvailabilityPage from './pages/AvailabilityPage';
+import CalendarPage from './pages/CalendarPage';
+import ChatPage from './pages/ChatPage';
+import ReportsPage from './pages/ReportsPage';
+import AdminCategoriesPage from './pages/admin/AdminCategoriesPage';
+import AdminModerationPage from './pages/admin/AdminModerationPage';
+import AdminAnalyticsPage from './pages/admin/AdminAnalyticsPage';
 
 export default function App() {
   return (
@@ -27,22 +36,27 @@ export default function App() {
               <Route path="/search" element={<SearchPage />} />
               <Route path="/tutors/:id" element={<TutorProfilePage />} />
 
+              <Route element={<RequireRole roles={['STUDENT']} />}>
+                <Route path="/hire/:tutorId/:offerId" element={<HirePage />} />
+              </Route>
+
               <Route element={<RequireRole roles={['STUDENT', 'TUTOR']} />}>
-                <Route path="/subscriptions" element={<ComingSoonPage />} />
-                <Route path="/calendar" element={<ComingSoonPage />} />
-                <Route path="/chat" element={<ComingSoonPage />} />
-                <Route path="/reports" element={<ComingSoonPage />} />
+                <Route path="/subscriptions" element={<SubscriptionsPage />} />
+                <Route path="/calendar" element={<CalendarPage />} />
+                <Route path="/chat" element={<ChatPage />} />
+                <Route path="/chat/:conversationId" element={<ChatPage />} />
+                <Route path="/reports" element={<ReportsPage />} />
               </Route>
 
               <Route element={<RequireRole roles={['TUTOR']} />}>
-                <Route path="/tutor/offers" element={<ComingSoonPage />} />
-                <Route path="/tutor/availability" element={<ComingSoonPage />} />
+                <Route path="/tutor/offers" element={<OffersPage />} />
+                <Route path="/tutor/availability" element={<AvailabilityPage />} />
               </Route>
 
               <Route element={<RequireRole roles={['ADMIN']} />}>
-                <Route path="/admin/categories" element={<ComingSoonPage />} />
-                <Route path="/admin/moderation" element={<ComingSoonPage />} />
-                <Route path="/admin/analytics" element={<ComingSoonPage />} />
+                <Route path="/admin/categories" element={<AdminCategoriesPage />} />
+                <Route path="/admin/moderation" element={<AdminModerationPage />} />
+                <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
               </Route>
             </Route>
           </Route>
