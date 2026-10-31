@@ -34,11 +34,16 @@ export async function loginWithGoogle(credential: string) {
   const name = payload.name ?? email;
   const isAdmin = env.ADMIN_EMAILS.includes(email);
 
+  const existing = await prisma.user.findFirst({
+    where: { OR: [{ googleId: payload.sub }, { email }] },
+    select: { id: true },
+  });
+
   const user = await prisma.user.upsert({
-    where: { googleId: payload.sub },
+    where: { id: existing?.id ?? '' },
     update: isAdmin
-      ? { name, photoUrl: payload.picture, role: 'ADMIN', onboarded: true }
-      : { name, photoUrl: payload.picture },
+      ? { googleId: payload.sub, name, photoUrl: payload.picture, role: 'ADMIN', onboarded: true }
+      : { googleId: payload.sub, name, photoUrl: payload.picture },
     create: {
       googleId: payload.sub,
       email,
