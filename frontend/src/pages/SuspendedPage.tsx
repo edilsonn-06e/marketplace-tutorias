@@ -54,8 +54,12 @@ export default function SuspendedPage() {
 
   const checkStatus = async () => {
     setChecking(true);
+    setError('');
     try {
-      await refreshUser();
+      const [, latest] = await Promise.all([refreshUser(), getMyAppeals()]);
+      setAppeals(latest);
+    } catch (err) {
+      setError(getErrorMessage(err));
     } finally {
       setChecking(false);
     }
